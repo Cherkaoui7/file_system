@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Optional: Dark Background for the whole app */
+body {
+    background-color: #0f172a;
+    /* Dark Navy */
+    color: #e2e8f0;
+    /* Light Text */
+}
