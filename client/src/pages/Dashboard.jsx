@@ -5,6 +5,7 @@ import BatchUpload from '../components/BatchUpload';
 import FileList from '../components/FileList';
 import { motion } from 'framer-motion';
 import { FaSignOutAlt, FaRocket, FaUserCircle, FaInfoCircle } from 'react-icons/fa'; // 👈 Added Info Icon
+import ErrorBoundary from '../components/ErrorBoundary';
 
 const Dashboard = () => {
     const { user, logout } = useContext(AuthContext);
@@ -57,6 +58,17 @@ const Dashboard = () => {
                     </button>
                 </div>
             </motion.header>
+            <main className="max-w-7xl mx-auto p-6 space-y-12">
+                <ErrorBoundary>
+                    <BatchUpload userToken={token} onUploadSuccess={handleUploadSuccess} />
+                </ErrorBoundary>
+
+                <div className="h-px bg-slate-800" />
+
+                <ErrorBoundary>
+                    <FileList token={token} refreshTrigger={refreshKey} />
+                </ErrorBoundary>
+            </main>
 
             <main className="max-w-7xl mx-auto p-6 space-y-12">
                 <BatchUpload userToken={localStorage.getItem('token')} onUploadSuccess={handleUploadSuccess} />
