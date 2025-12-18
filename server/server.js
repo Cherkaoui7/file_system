@@ -1,28 +1,32 @@
 const express = require('express');
-const dotenv = require('dotenv');
-const colors = require('colors');
+const mongoose = require('mongoose');
 const cors = require('cors');
-const connectDB = require('./config/db');
-const serverless = require('serverless-http');
-
-dotenv.config();
-
-// Initialize DB
-connectDB();
-
+const serverless = require('serverless-http'); // Required package
 const app = express();
 
-// --- Middleware ---
+// --- 🛡️ SECURITY & CORS ---
 app.use(cors({
-    origin: '*', // Allows your Netlify frontend to communicate
+    origin: '*', // Allows your Netlify URL to connect
     credentials: true
 }));
 app.use(express.json());
 
-// Routes
-app.use('/api/files', require('./routes/files'));
-app.use('/api/auth', require('./routes/auth'));
+// --- 🗄️ DATABASE CONNECTION ---
+// Use the environment variable set in Netlify dashboard
+const mongoURI = process.env.MONGO_URI;
+mongoose.connect(mongoURI)
+    .then(() => console.log("Aether DB Connected"))
+    .catch(err => console.error("DB Error:", err));
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server active on port ${PORT}`.yellow.bold));
-module.exports = serverless(app);
+// --- 🚀 API ROUTES ---
+app.get('/api/health', (req, res) => {
+    res.json({ status: "Super Fast System Online" });
+});
+
+// Import your existing routes (Example)
+// const fileRoutes = require('./routes/fileRoutes');
+// app.use('/api/files', fileRoutes);
+
+// --- ⚡ NETLIFY EXPORT ---
+// Do NOT use app.listen(). Netlify manages the execution.
+module.exports.handler = serverless(app);
