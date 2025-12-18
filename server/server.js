@@ -13,7 +13,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: true,
     credentials: true
 }));
 
@@ -23,3 +23,4 @@ app.use('/api/auth', require('./routes/auth'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server active on port ${PORT}`.yellow.bold));
+module.exports = app;
