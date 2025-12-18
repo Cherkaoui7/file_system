@@ -7,7 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile'; // 👈 The new Profile Page
-
+import About from './pages/About'; // 👈 The new About Page
 // Security Wrapper: Checks if user is logged in
 const ProtectedRoute = ({ children }) => {
     const { token } = useContext(AuthContext);
@@ -30,6 +30,7 @@ function App() {
                     <Routes>
 
                         {/* PUBLIC ROUTES (Accessible by anyone) */}
+                        <Route path="/about" element={<About />} />
                         <Route path="/login" element={<Login />} />
                         <Route path="/register" element={<Register />} />
 
